@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "disco_rl"
+version = "1.0.0"
+description = "DiscoRL: Discovering State-of-the-art Reinforcement Learning Algorithms."
+readme = "README.md"
+requires-python = ">=3.11"
+license-files = ["LICENSE"]
+authors = [{name = "DiscoRL team", email="disco_rl@google.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+]
+keywords = [
+  "reinforcement learning",
+  "rl",
+  "meta learning",
+  "meta",
+  "update rule",
+  "automated discovery",
+  "automl",
+  "algorithm discovery",
+  "data driven research",
+]
+
+# pip dependencies of the project
+# Installed locally with `pip install -e .`
+dependencies = [
+  "jax",
+  "distrax",
+  "optax",
+  "jmp",
+  "rlax",
+  "dm-haiku",
+  "immutabledict",
+  "ml_collections",
+  "matplotlib",
+  "seaborn",
+  "pandas",
+  "tqdm"
+]
+
+[project.urls]
+repository = "https://github.com/google-deepmind/disco_rl"
+
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["*"]  # package names should match these glob patterns (["*"] by default)

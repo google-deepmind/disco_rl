@@ -1,25 +1,44 @@
-# disco_rl
+# DiscoRL: Discovering State-of-the-art Reinforcement Learning Algorithms
 
-TODO(b/433453349): Add a description for your new project, explain what is
-being released here, etc... Additional, the following sections are normally
-expected for all releases. Feel free to add additional sections if appropriate
-for your project.
+This repository contains accompanying code for the *"Discovering
+ State-of-the-art Reinforcement Learning Algorithms"* Nature publication.
+
+It provides a minimal harness for the DiscoRL setup together with the
+ original meta-learned weights for the *Disco103* discovered update rule.
+
+The harness supports both:
+
+-   **Meta-evaluation**: training an agent using the *Disco103* discovered RL
+    update rule, using the `colabs/eval.ipynb` notebook [![Open In](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google-deepmind/disco_rl/blob/master/colabs/eval.ipynb) and
+
+-   **Meta-training**: meta-learning a RL update rule from scratch or from a
+    pre-existing checkpoint, using the `colabs/meta_train.ipynb` notebook [![Open In](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google-deepmind/disco_rl/blob/master/colabs/meta_train.ipynb)
+
+Note that it will not be actively maintained moving forward.
 
 ## Installation
 
-Write instructions for how the user should install your code. The instructions
-should ideally be valid when copy-pasted. You can combine this with the Usage
-section if there's no separate installation step.
+Set up a Python virtual environment and install the package:
+
+```bash
+python3 -m venv .disco_rl_venv
+source .disco_rl_venv/bin/activate
+pip install git+https://github.com/google-deepmind/disco_rl.git
+```
+
+The package can also be installed from colab:
+
+```bash
+!pip install git+https://github.com/google-deepmind/disco_rl.git
+```
 
 ## Usage
 
-Write example usage of your code. The instructions should ideally be valid when
-copy-pasted, and will be used by your technical reviewer to verify that your
-package functions correctly.
+Examples of usage can be found in the colabs above.
 
 ## Citing this work
 
-Add citation details here, usually a pastable BibTeX snippet:
+TODO
 
 ```
 @article{publicationname,
