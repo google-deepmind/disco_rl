@@ -45,7 +45,13 @@ class LearnerState:
 
 
 class Agent:
-  """A generic agent with an update rule."""
+  """A generic agent with an update rule.
+
+  Its API supports both evaluation and meta-training of the update rule.
+
+  Note that for evaluation/inference only, the update rule's application can be
+  simplified and encapsulated by using its __call__ method.
+  """
 
   update_rule: update_rules_base.UpdateRule
 
@@ -198,6 +204,7 @@ class Agent:
       meta_state: types.MetaState,
       rollout: types.ActorRollout,
       meta_out: types.UpdateRuleOuts,
+      is_meta_training: bool,
   ) -> tuple[chex.Array, tuple[types.MetaState, hk.State, types.LogDict]]:
     """Computes the loss according to the update rule."""
     # Extract rewards and discounts.
@@ -222,10 +229,10 @@ class Agent:
     )
 
     # When not meta-training, this can be simplified by calling the update rule
-    # directly to get the combined loss.
+    # directly to get the combined loss. See the class docstring for details.
     hyper_params = self.settings.hyper_params.to_dict()
     loss_per_step, log = self.update_rule.agent_loss(
-        eta_inputs, meta_out, hyper_params, backprop=True
+        eta_inputs, meta_out, hyper_params, backprop=is_meta_training
     )
     loss_per_step_no_meta, log_no_meta = self.update_rule.agent_loss_no_meta(
         eta_inputs, meta_out, hyper_params
@@ -245,6 +252,7 @@ class Agent:
       learner_state: LearnerState,
       agent_net_state: hk.State,
       update_rule_params: types.MetaParams,
+      is_meta_training: bool,
   ) -> tuple[LearnerState, hk.State, types.LogDict]:
     """Runs a training step across all learner devices for one rollout."""
     reward = rollout.rewards[1:]
@@ -265,14 +273,13 @@ class Agent:
     )
 
     # Apply the update network.
-    hyper_params = self.settings.hyper_params.to_dict()
     meta_out, new_meta_state = self.update_rule.unroll_meta_net(
         meta_params=update_rule_params,
         params=learner_state.params,
         state=agent_net_state,
         meta_state=learner_state.meta_state,
         rollout=eta_inputs,
-        hyper_params=hyper_params,
+        hyper_params=self.settings.hyper_params.to_dict(),
         unroll_policy_fn=self._network.unroll,
         rng=rng,
         axis_name=self._batch_axis_name,
@@ -286,6 +293,7 @@ class Agent:
         meta_state=learner_state.meta_state,
         rollout=rollout,
         meta_out=meta_out,
+        is_meta_training=is_meta_training,
     )
     # Average gradients across the other learner devices involved in the `pmap`.
     if self._batch_axis_name is not None:
