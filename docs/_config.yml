@@ -1,0 +1,7 @@
+title: Discovering State-of-the-art Reinforcement Learning Algorithms
+description: We show that it is possible to automatically discover
+ a state-of-the-art reinforcement learning (RL) algorithm that outperforms
+ manually-designed ones across a variety of challenging benchmarks.
+theme: jekyll-theme-cayman
+baseurl: "/disco_rl"
+layout: default

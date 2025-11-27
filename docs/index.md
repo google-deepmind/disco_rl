@@ -105,15 +105,8 @@ theme: jekyll-theme-cayman
         padding: 30px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 20px;
-    }
-
-    .text-col::before,
-    .text-col::after {
-        content: '';
-        flex: 0 0 auto;
-        margin: auto;
     }
 
     .stage-description {
